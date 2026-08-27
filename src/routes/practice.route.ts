@@ -261,3 +261,31 @@ practiceRouter.delete("/delete-student", async (req, res) => {
             result
         });
 });
+
+//Task 7: Count total students
+practiceRouter.get("/count-total-students", async (req, res) => {
+  const db = getDatabase();
+
+  const result = await db
+    .collection("student")
+    .aggregate([
+      {
+        $count: "totalStudents",
+      },
+    ])
+    .toArray();
+
+  res.json(result);
+});
+
+//Task 7: Unique Departments
+practiceRouter.get("/unique-departments", async (req, res) => {
+  const db = getDatabase();
+
+  const result = await db
+    .collection("student")
+    .distinct("department");
+
+  res.json({ result });
+});
+
