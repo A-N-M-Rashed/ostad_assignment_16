@@ -289,3 +289,43 @@ practiceRouter.get("/unique-departments", async (req, res) => {
   res.json({ result });
 });
 
+//Task 1: insertOne
+practiceRouter.post("/insert-one", async (req, res) => {
+  const db = getDatabase();
+
+  const newStudent = {
+    name: "Habib",
+    department: "CSE",
+    cgpa: 3.75,
+  };
+
+  const result = await db.collection("student").insertOne(newStudent);
+
+  res.status(201).json({
+    message: "Student inserted successfully",
+    result
+  });
+});
+
+//Task 2: insertMany
+practiceRouter.post("/insert-many", async (req, res) => {
+  const db = getDatabase();
+
+  const newStudents = [{
+    name: "Tamanna",
+    department: "BBA",
+    cgpa: 3.66,
+  },
+  {
+    name: "Shurobhi",
+    department: "EEE",
+    cgpa: 3.78,    
+  }]
+
+  const result = await db.collection("student").insertMany(newStudents);
+
+  res.status(201).json({
+    message: "inserted multiple students successfully",
+    result
+  });
+});
