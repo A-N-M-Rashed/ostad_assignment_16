@@ -154,7 +154,7 @@ practiceRouter.get("/limit", async (req, res) => {
                 $sort: {
                     cgpa: -1,
                 },
-            }, 
+            },
             {
                 $limit: 3
             },
@@ -180,17 +180,17 @@ practiceRouter.patch("/update-dept", async (req, res) => {
     const result = await db
         .collection("student")
         .updateOne(
-            {name: "Sumon"},
-            {$set: {"department": "CSE"}}
+            { name: "Sumon" },
+            { $set: { "department": "CSE" } }
         );
 
     res.json(result);
 });
 
 //get updated student info
-practiceRouter.get("/get-updated-dept", async (req, res)=>{
+practiceRouter.get("/get-updated-dept", async (req, res) => {
     const db = getDatabase();
-    const result= await db
+    const result = await db
         .collection("student")
         .aggregate([
             {
@@ -202,12 +202,12 @@ practiceRouter.get("/get-updated-dept", async (req, res)=>{
                 $project: {
                     _id: 0,
                     name: 1,
-                    department:1
+                    department: 1
                 }
             }
         ]).toArray();
 
-        res.json(result);
+    res.json(result);
 })
 
 
@@ -218,17 +218,17 @@ practiceRouter.patch("/increase-cgpa", async (req, res) => {
     const result = await db
         .collection("student")
         .updateOne(
-            {name: "Karim"},
-            {$inc: {"cgpa": 0.2}}
+            { name: "Karim" },
+            { $inc: { "cgpa": 0.2 } }
         );
 
     res.json(result);
 });
 
 //get
-practiceRouter.get("/get-updated-cgpa", async (req, res)=>{
+practiceRouter.get("/get-updated-cgpa", async (req, res) => {
     const db = getDatabase();
-    const result= await db
+    const result = await db
         .collection("student")
         .aggregate([
             {
@@ -240,10 +240,24 @@ practiceRouter.get("/get-updated-cgpa", async (req, res)=>{
                 $project: {
                     _id: 0,
                     name: 1,
-                    cgpa:1
+                    cgpa: 1
                 }
             }
         ]).toArray();
 
-        res.json(result);
+    res.json(result);
 })
+
+//Task 6: Delete Queries
+practiceRouter.delete("/delete-student", async (req, res) => {
+    const db = getDatabase();
+
+    const result = await db
+        .collection("student")
+        .deleteOne({ name: "Habib" });
+    res.json(
+        {
+            message: "Student deleted successfully",
+            result
+        });
+});
