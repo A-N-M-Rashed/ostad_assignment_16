@@ -171,3 +171,79 @@ practiceRouter.get("/limit", async (req, res) => {
 
     res.json(result);
 });
+
+
+//Task 5: update department
+practiceRouter.patch("/update-dept", async (req, res) => {
+    const db = getDatabase();
+
+    const result = await db
+        .collection("student")
+        .updateOne(
+            {name: "Sumon"},
+            {$set: {"department": "CSE"}}
+        );
+
+    res.json(result);
+});
+
+//get updated student info
+practiceRouter.get("/get-updated-dept", async (req, res)=>{
+    const db = getDatabase();
+    const result= await db
+        .collection("student")
+        .aggregate([
+            {
+                $match: {
+                    name: "Sumon"
+                }
+            },
+            {
+                $project: {
+                    _id: 0,
+                    name: 1,
+                    department:1
+                }
+            }
+        ]).toArray();
+
+        res.json(result);
+})
+
+
+//Task 5: increase cgpa
+practiceRouter.patch("/increase-cgpa", async (req, res) => {
+    const db = getDatabase();
+
+    const result = await db
+        .collection("student")
+        .updateOne(
+            {name: "Karim"},
+            {$inc: {"cgpa": 0.2}}
+        );
+
+    res.json(result);
+});
+
+//get
+practiceRouter.get("/get-updated-cgpa", async (req, res)=>{
+    const db = getDatabase();
+    const result= await db
+        .collection("student")
+        .aggregate([
+            {
+                $match: {
+                    name: "Sumon"
+                }
+            },
+            {
+                $project: {
+                    _id: 0,
+                    name: 1,
+                    cgpa:1
+                }
+            }
+        ]).toArray();
+
+        res.json(result);
+})
